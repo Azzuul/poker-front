@@ -1,4 +1,4 @@
-# PokerFron
+# PokerFront
 
 
 Para ejecutar el poker-front, en VS Code, abrir una terminal en el directorio del proyecto y ejecutar los comandos.
