@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row mt-5">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="text-center">Nombre Jugador</th>
+                    <th class="text-center">Puntuacion</th>
+                    <th class="text-center">Mazo</th>
+                    <th class="text-center" >Carta 1</th>
+                    <th class="text-center" >Carta 2</th>
+                    <th class="text-center" >Carta 3</th>
+                    <th class="text-center" >Carta 4</th>
+                    <th class="text-center" >Carta 5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (winner of winners; track $index) {
+                  <tr>
+                    <td class="text-center">{{winner.playerName}}</td>
+                    <td class="text-center">{{winner.puntuacion}}</td>
+                    <td class="text-center">{{winner.mazo}}</td>
+                    @for (card of winner.cards; track $index) {
+                      <td class="text-center">
+                        {{card.symbol}} {{card.characterCardTypeEnum}}
+                      </td>
+                    }
+                  
+                  </tr>
+                }
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>

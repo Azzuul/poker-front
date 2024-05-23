@@ -1,0 +1,158 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-secondary my-2" (click)="deal()">
+                Jugar
+            </button> 
+            @if (mazo) {  
+            <p class="text-primary fw-bold">Nuevo Mazo Generado: <span class="text-muted">{{mazo}}</span></p>}  
+        </div>
+        <div class="col">
+          @if (players.length>0) {
+          <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Jugador</th>
+              <th scope="col">Partida</th>
+
+            </tr>
+          </thead>
+          <tbody>
+              @for (player of players; track $index) {
+              <tr>
+              <td>{{player.playerName}}</td>
+              <td>{{mazo}}</td>
+            </tr>
+              }
+          </tbody>
+        </table>
+      }
+      </div>
+
+    </div>
+    <div class="row my-4">
+        <div class="col">        
+          <input [(ngModel)]="name1" placeholder="Ingrese nombre jugador">
+        <button type="button" class="btn btn-secondary m-2" (click)="player(mazo,name1)">
+            Agregar Jugador
+        </button>
+        
+      </div>
+      <div class="col">
+        <h5 class="text-center">Cartas de la Mesa</h5>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Número</th>
+
+                <th scope="col">Tipo</th>
+                <th scope="col">Símbolo</th>
+                @if (isDisabled) {
+                <th>Tomar Carta</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+                @for (card of mesaCards; track $index) {
+              <tr>
+                <td>{{card.number}}</td>
+
+                <td>{{card.characterCardTypeEnum.name}}</td>
+                <td>{{card.symbol}}</td>
+                @if (isDisabled) {
+                  <td><button type="button" class="btn btn-secondary m-2" (click)="tomarCardPlayer(card,nombreJugadorActual)"> Tomar</button></td>
+                }
+
+
+              </tr>
+            }
+            </tbody>
+          </table>
+    </div>
+</div>
+
+        
+
+    <div class="row my-4">
+      <div class="col">    
+      <button type="button" class="btn btn-secondary m-2" (click)="flop(mazo)" >
+          Lanzar Flop
+      </button>
+      <!-- <button type="button" class="btn btn-secondary my-2" (click)="flop(mazo)" [disabled]="players.length !==2" [class.btn-secondary]="players.length !== 2">
+        Lanzar Flop
+    </button> -->
+      <button type="button" class="btn btn-secondary m-2" (click)="turn(mazo)">
+        Lanzar Turn
+      </button>
+      <button type="button" class="btn btn-secondary m-2" (click)="river(mazo)">
+        Lanzar river
+      </button>
+      <!-- <button type="button" class="btn btn-info my-2" (click)="toggleButtonState()" >
+        Tomar Cartas
+      </button> -->
+      <button type="button" class="btn btn-secondary m-2" (click)="mostrarSiguienteJugador()">
+        Cambiar Turno
+      </button>
+      <button type="button" class="btn btn-secondary m-2" (click)="winner()">
+        Finalizar Partida
+      </button>
+
+      @if (winnerExists) {
+        <button type="button" class="btn btn-secondary m-2" (click)="reiniciarPartida()">
+          Reiniciar Juego
+        </button>
+        <div class="m-2">
+        @if(winnerResult === null){
+          <p>Ha habido un empate entre los jugadores</p>
+          }@else{
+            <h5> Ganador del juego: </h5>
+            <p>Player Name: {{ winnerResult.playerName }}</p>
+            <p>Score: {{ winnerResult.puntuacion }}</p>
+          }
+        </div>
+      }
+
+
+      
+      </div>
+      <div class="col">
+        <h5 class="text-center">Cartas del jugador {{nombreJugadorActual}}</h5>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Jugador</th>
+                <th scope="col">Número</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Símbolo</th>
+                @if (isDisabled) {
+                  <th>Action Card</th>
+                  }
+              </tr>
+            </thead>
+            <tbody>
+                @for (player of players; track $index) {
+                  @if (player.playerName==nombreJugadorActual) {
+                  @for (card of player.cards; track $index) {
+                <tr>
+                <td>{{player.playerName}}</td>
+                <td>{{card.number}}</td>
+                <td>{{card.characterCardTypeEnum.name}}</td>
+                <td>{{card.symbol}}</td>
+                @if (isDisabled) {
+                  @if (!backupMesaCards.includes(card)) {
+                  <td><button type="button" class="btn btn-secondary m-2" (click)="botarCardPlayer(card,nombreJugadorActual)">Botar</button></td>
+                  }@else {
+                    <td><button type="button" class="btn btn-secondary m-2" (click)="botarCardPlayer(card,nombreJugadorActual)"> Devolver</button></td>
+                  }
+                  }
+              </tr>
+                }
+              }
+            }
+              
+            </tbody>
+          </table>
+    </div>
+</div>
+     
+</div>
